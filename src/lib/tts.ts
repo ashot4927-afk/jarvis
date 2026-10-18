@@ -177,36 +177,26 @@ function score(v: SpeechSynthesisVoice): number {
   const n = v.name.toLowerCase()
   let s = 0
 
-  // The macOS British male, and the closest thing to the character available
-  // without leaving the machine.
-  if (n.startsWith('daniel')) s += 100
-  else if (n.includes('google uk english male')) s += 85
-  else if (/\b(oliver|arthur|jamie|malcolm)\b/.test(n)) s += 80
-  // Newer macOS en-GB male voices — casual, but serviceable.
-  else if (/\b(reed|rocko|eddy)\b/.test(n)) s += 40
+  // Prefer a calm, professional female voice; British English wins ties.
+  if (/\b(serena|fiona|moira|samantha|ava|allison|susan|tessa|kate|hazel|aria|jenny|sonia|libby|natasha|victoria|olivia|emily|sarah|female)\b/.test(n)) s += 100
+  else if (n.includes('google uk english female')) s += 105
+  else if (n.includes('google us english')) s += 55
 
-  // Higher-quality variants of whatever matched above.
   if (n.includes('premium')) s += 30
   else if (n.includes('enhanced')) s += 20
 
-  if (/en[-_]gb/i.test(v.lang)) s += 25
-  else if (/^en/i.test(v.lang)) s += 5
+  if (/en[-_]gb/i.test(v.lang)) s += 30
+  else if (/^en/i.test(v.lang)) s += 10
 
-  // Voices that clearly aren't a butler.
   if (/grandma|grandpa|bubbles|jester|bells|boing|whisper|zarvox|superstar|trinoids|wobble|bahh|organ|cellos|bad news|good news/.test(n)) {
     s -= 200
   }
-  // Female-presenting names across the English sets.
-  if (/\b(flo|sandy|shelley|kate|serena|fiona|moira|karen|tessa|samantha|zoe|allison|ava|susan)\b/.test(n)) {
-    s -= 60
-  }
-
   return s
 }
 
 /** Only voices that scored on a name match, not merely on being English —
  *  otherwise the picker cycles through a dozen US novelty voices. */
-const USABLE = 40
+const USABLE = 50
 
 /** Best-first list of usable voices — also what the voice picker cycles. */
 export function candidateVoices(): SpeechSynthesisVoice[] {
