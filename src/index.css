@@ -1896,3 +1896,29 @@ kbd {
   transform: scaleX(-1);
   background: #000;
 }
+
+
+/* Meneer Ashot edition: restrained black, blue, green and red. */
+:root {
+  --interface: #4b9cff;
+  --accent: var(--interface);
+  --bg: #030508;
+  color-scheme: dark;
+}
+body {
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(22, 42, 68, 0.22), transparent 52%),
+    #030508;
+}
+body::after {
+  background:
+    radial-gradient(ellipse at center, transparent 36%, rgba(0, 0, 0, 0.72) 100%),
+    repeating-linear-gradient(0deg, rgba(75, 156, 255, 0.018) 0px, rgba(75, 156, 255, 0.018) 1px, transparent 1px, transparent 4px);
+}
+:root {
+  --status-blue: #4b9cff;
+  --status-green: #43d69e;
+  --status-red: #ff5b68;
+}
+::selection { background: rgba(75, 156, 255, 0.32); color: #fff; }
+button, input, textarea { accent-color: var(--status-blue); }
